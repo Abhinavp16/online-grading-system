@@ -1,317 +1,199 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Check, ArrowRight, Star, Building2, School, GraduationCap, Zap, HelpCircle } from 'lucide-react';
 import Footer from '../components/Footer';
+
+const PricingPlan = ({ name, price, description, features, buttonText, highlighted, icon: Icon, badge }) => (
+    <div className={`relative flex flex-col p-8 rounded-3xl transition-all duration-500 hover:-translate-y-2 ${highlighted
+            ? 'bg-zinc-900 text-white shadow-2xl shadow-indigo-200/50 border-2 border-indigo-500 scale-105 z-10'
+            : 'bg-white text-zinc-900 shadow-xl shadow-zinc-200/50 border border-zinc-100 hover:border-indigo-100'
+        }`}>
+        {badge && (
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full tracking-widest uppercase">
+                {badge}
+            </div>
+        )}
+
+        <div className="mb-8">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 ${highlighted ? 'bg-indigo-500 text-white' : 'bg-indigo-50 text-indigo-600'
+                }`}>
+                <Icon size={24} />
+            </div>
+            <h3 className="text-2xl font-bold mb-2 tracking-tight">{name}</h3>
+            <p className={`text-sm leading-relaxed ${highlighted ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                {description}
+            </p>
+        </div>
+
+        <div className="mb-8">
+            <div className="flex items-baseline gap-1">
+                <span className="text-5xl font-black">{price === '0' ? '₹0' : `₹${price}`}</span>
+                <span className={`text-sm font-medium ${highlighted ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                    {price === '0' ? '' : '/month'}
+                </span>
+            </div>
+            {price !== '0' && (
+                <p className={`text-xs mt-2 font-medium ${highlighted ? 'text-indigo-400' : 'text-indigo-600'}`}>
+                    *GST applicable as per Indian laws
+                </p>
+            )}
+        </div>
+
+        <ul className="space-y-4 mb-10 flex-1">
+            {features.map((feature, idx) => (
+                <li key={idx} className="flex items-start gap-3 group">
+                    <div className={`mt-1 p-0.5 rounded-full ${highlighted ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-50 text-indigo-600'}`}>
+                        <Check size={14} strokeWidth={3} />
+                    </div>
+                    <span className={`text-sm ${highlighted ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                        {feature}
+                    </span>
+                </li>
+            ))}
+        </ul>
+
+        <button className={`w-full py-4 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group ${highlighted
+                ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20'
+                : 'bg-zinc-900 hover:bg-zinc-800 text-white'
+            }`}>
+            {buttonText}
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+        </button>
+    </div>
+);
 
 const Pricing = () => {
     return (
-        <div className="min-h-screen bg-white font-sans antialiased text-gray-900 relative">
-            {/* Back to Home Button */}
-            <div className="absolute top-6 left-6 z-50">
-                <Link
-                    to="/"
-                    className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-xl rounded-2xl shadow-lg border border-gray-100/50 px-6 py-3 text-gray-700 hover:text-blue-600 font-semibold transition-all duration-300 hover:shadow-xl hover:scale-105 group"
-                >
-                    <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                    <div className="flex items-center gap-2">
-                        <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-1.5 rounded-lg">
-                            <svg className="text-white h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">Gradely</span>
+        <div className="min-h-screen bg-zinc-50 font-sans antialiased text-zinc-900 relative">
+            {/* Navigation Header */}
+            <div className="absolute top-0 left-0 right-0 z-50 p-6 flex justify-between items-center max-w-7xl mx-auto">
+                <Link to="/" className="flex items-center gap-3 group">
+                    <div className="bg-indigo-600 p-2 rounded-xl shadow-lg group-hover:bg-indigo-500 transition-all transform group-hover:scale-110">
+                        <GraduationCap className="text-white h-6 w-6" />
                     </div>
+                    <span className="text-2xl font-bold text-zinc-900 tracking-tight">Gradely</span>
                 </Link>
+                <div className="hidden md:flex items-center gap-8">
+                    <Link to="/login" className="text-sm font-bold text-zinc-600 hover:text-indigo-600 transition-colors">Sign In</Link>
+                    <Link to="/schedule-demo" className="bg-zinc-900 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200">Book Demo</Link>
+                </div>
             </div>
 
-            <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden">
-                {/* Education-themed background elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {/* Floating academic icons */}
-                    <div className="absolute top-20 left-10 opacity-10">
-                        <svg className="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
-                        </svg>
-                    </div>
-                    <div className="absolute top-32 right-20 opacity-10">
-                        <svg className="w-12 h-12 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-                        </svg>
-                    </div>
-                    <div className="absolute bottom-40 left-20 opacity-10">
-                        <svg className="w-14 h-14 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z" />
-                        </svg>
-                    </div>
-                    <div className="absolute top-60 right-10 opacity-10">
-                        <svg className="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                        </svg>
-                    </div>
-                    <div className="absolute bottom-20 right-32 opacity-10">
-                        <svg className="w-18 h-18 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H18V0h-2v2H8V0H6v2H4.5C3.11 2 2 3.11 2 4.5v15C2 20.89 3.11 22 4.5 22h15c1.39 0 2.5-1.11 2.5-2.5v-15C22 3.11 20.89 2 19.5 2z" />
-                        </svg>
-                    </div>
+            <section className="pt-32 pb-24 px-4 relative overflow-hidden">
+                {/* Background Decor */}
+                <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-indigo-50/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 -z-10"></div>
+                <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-zinc-100 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 -z-10"></div>
 
-                    {/* Geometric shapes representing institutional buildings */}
-                    <div className="absolute top-10 right-40 opacity-5">
-                        <div className="w-24 h-32 bg-gradient-to-t from-blue-600 to-blue-400 transform rotate-12"></div>
+                <div className="max-w-7xl mx-auto text-center mb-20 px-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6 group cursor-default">
+                        <Zap size={14} className="text-indigo-600 fill-indigo-600 group-hover:animate-pulse" />
+                        <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Built for Indian Education</span>
                     </div>
-                    <div className="absolute bottom-10 left-40 opacity-5">
-                        <div className="w-20 h-28 bg-gradient-to-t from-indigo-600 to-indigo-400 transform -rotate-6"></div>
-                    </div>
-
-                    {/* Student/graduation themed elements */}
-                    <div className="absolute top-40 left-60 opacity-8">
-                        <svg className="w-20 h-20 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M5 16L3 14l5.5-5.5L10 10l8-8 1.5 1.5L10 13l-5-5z" />
-                        </svg>
-                    </div>
-
-                    {/* Floating dots pattern */}
-                    <div className="absolute top-16 left-1/3 w-2 h-2 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
-                    <div className="absolute top-80 right-1/4 w-3 h-3 bg-indigo-400 rounded-full opacity-15 animate-pulse delay-1000"></div>
-                    <div className="absolute bottom-60 left-1/4 w-2 h-2 bg-purple-400 rounded-full opacity-25 animate-pulse delay-500"></div>
-                    <div className="absolute bottom-32 right-1/3 w-4 h-4 bg-green-400 rounded-full opacity-10 animate-pulse delay-1500"></div>
+                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-zinc-900 mb-6 tracking-tight">
+                        Transparent Pricing for <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">Institutional Growth</span>
+                    </h1>
+                    <p className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto leading-relaxed font-medium">
+                        Whether you're a coaching center, a K-12 school, or a university department, we have a plan to scale your grading process.
+                    </p>
                 </div>
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="text-center mb-16">
+                <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 items-stretch pt-8 px-4">
+                    <PricingPlan
+                        name="Basic"
+                        price="0"
+                        icon={Star}
+                        description="Ideal for individual tutors and teachers starting their digital journey."
+                        features={[
+                            "Up to 30 student assessments/month",
+                            "Standard AI Auto-grading",
+                            "Basic performance reports",
+                            "Export as PDF/Email",
+                            "Standard community support"
+                        ]}
+                        buttonText="Start for Free"
+                    />
 
-                        <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                            Choose Your Perfect Plan
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Transform your grading process with AI-powered assessment tools designed for educational excellence.
-                        </p>
+                    <PricingPlan
+                        name="Popular"
+                        price="2,499"
+                        icon={Zap}
+                        highlighted={true}
+                        badge="Most Popular"
+                        description="Professional tools for coaching institutes and independent departments."
+                        features={[
+                            "Unlimited student assessments",
+                            "Advanced AI Rubric engine",
+                            "Deep insights & Gap analysis",
+                            "Parent-Teacher dashboard",
+                            "Custom institution branding",
+                            "Priority WhatsApp support"
+                        ]}
+                        buttonText="Choose Professional"
+                    />
+
+                    <PricingPlan
+                        name="Institutional"
+                        price="7,999"
+                        icon={Building2}
+                        description="Enterprise-grade features for schools and large organizations."
+                        features={[
+                            "Multi-branch management",
+                            "API access & Integrations",
+                            "Dedicated Account Manager",
+                            "White-labeled student app",
+                            "On-site teacher training",
+                            "SLA-backed 24/7 support"
+                        ]}
+                        buttonText="Contact Sales"
+                    />
+                </div>
+
+                {/* Trust Footer */}
+                <div className="mt-24 text-center px-4">
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-10">Trusted by leading Indian Institutions</p>
+                    <div className="flex flex-wrap justify-center items-center gap-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+                        {/* Placeholder for Indian Educational Brand Logos */}
+                        <div className="text-xl md:text-2xl font-bold italic text-zinc-800 tracking-tighter">KV SCHOOLS</div>
+                        <div className="text-xl md:text-2xl font-bold italic text-zinc-800 tracking-tighter">DPS SOCIETY</div>
+                        <div className="text-xl md:text-2xl font-bold italic text-zinc-800 tracking-tighter">IIT CHAYAN</div>
+                        <div className="text-xl md:text-2xl font-bold italic text-zinc-800 tracking-tighter">CBSE/ICSE</div>
+                    </div>
+                </div>
+
+                {/* FAQ Section */}
+                <div className="mt-32 max-w-4xl mx-auto px-4">
+                    <div className="flex items-center gap-4 mb-12">
+                        <div className="p-3 bg-zinc-900 rounded-2xl">
+                            <HelpCircle className="text-white" />
+                        </div>
+                        <h2 className="text-3xl font-bold text-zinc-900 tracking-tight">Got Questions?</h2>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        {/* Starter Plan */}
-                        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow">
-                            <div className="mb-6">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="text-2xl font-bold text-gray-900">starter</h3>
-                                    <span className="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded">FREE</span>
-                                </div>
-                                <p className="text-gray-600">
-                                    Perfect for individual educators and small classrooms starting their AI grading journey.
-                                </p>
+                    <div className="grid gap-6">
+                        {[
+                            {
+                                q: "Do you offer GST compliant invoices?",
+                                a: "Absolutely. All our paid plans come with automated GST invoices and we support your institution's registration for tax credit."
+                            },
+                            {
+                                q: "What about the Indian curriculum (CBSE/ICSE)?",
+                                a: "Gradely is specifically trained on Indian board standards. You can choose from predefined rubrics for standard X and XII board patterns."
+                            },
+                            {
+                                q: "Can we pay via UPI or Net Banking?",
+                                a: "Yes, we support all major Indian payment methods through Razorpay, including UPI, Net Banking, and local Debit Cards."
+                            },
+                            {
+                                q: "Is there on-site support for large schools?",
+                                a: "Our Institutional plan includes optional on-site training workshops for your teaching staff across major cities in India."
+                            }
+                        ].map((faq, i) => (
+                            <div key={i} className="group p-8 bg-white border border-zinc-100 rounded-3xl hover:border-indigo-100 transition-all duration-300">
+                                <h3 className="text-lg font-bold text-zinc-900 mb-3 group-hover:text-indigo-600 transition-colors">{faq.q}</h3>
+                                <p className="text-zinc-500 leading-relaxed text-sm font-medium">{faq.a}</p>
                             </div>
-
-                            <div className="mb-8">
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-4xl font-bold text-gray-900">$0</span>
-                                    <span className="text-gray-500">/month</span>
-                                </div>
-                                <p className="text-sm text-gray-500 mt-1">Free forever</p>
-                            </div>
-
-                            <div className="mb-8">
-                                <h4 className="font-semibold text-gray-900 mb-4">Key features:</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Up to 50 student assessments per month</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Basic AI grading for essays and assignments</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Standard feedback generation for students</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Email support for educators</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <button className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
-                                Get Started Free
-                            </button>
-                        </div>
-
-                        {/* Professional Plan */}
-                        <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-500 relative hover:shadow-2xl transition-shadow">
-                            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                                    Most Popular
-                                </span>
-                            </div>
-
-                            <div className="mb-6">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="text-2xl font-bold text-gray-900">professional</h3>
-                                    <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">PRO</span>
-                                </div>
-                                <p className="text-gray-600">
-                                    Designed for educators and departments streamlining student assessment with advanced AI.
-                                </p>
-                            </div>
-
-                            <div className="mb-8">
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-4xl font-bold text-gray-900">$29</span>
-                                    <span className="text-gray-500">/month per educator</span>
-                                </div>
-                                <p className="text-sm text-gray-500 mt-1">or $290/year (save 17%)</p>
-                            </div>
-
-                            <div className="mb-8">
-                                <h4 className="font-semibold text-gray-900 mb-4">All the features of Starter, and:</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Unlimited student assessments</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Advanced AI models for accurate student grading</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Custom rubric creation for assignments</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Detailed analytics and student progress insights</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Priority support for educators</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
-                                Start Free Trial
-                            </button>
-                        </div>
-
-                        {/* Enterprise Plan */}
-                        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow">
-                            <div className="mb-6">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="text-2xl font-bold text-gray-900">enterprise</h3>
-                                    <span className="bg-amber-100 text-amber-800 text-sm font-medium px-2 py-1 rounded">MAX</span>
-                                </div>
-                                <p className="text-gray-600">
-                                    Built for educational institutions managing large-scale student assessments and complex grading workflows.
-                                </p>
-                            </div>
-
-                            <div className="mb-8">
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-4xl font-bold text-gray-900">$69</span>
-                                    <span className="text-gray-500">/month per institution</span>
-                                </div>
-                                <p className="text-sm text-gray-500 mt-1">or $690/year (save 17%)</p>
-                            </div>
-
-                            <div className="mb-8">
-                                <h4 className="font-semibold text-gray-900 mb-4">All the features of Professional, and:</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Unlimited educator accounts for institution</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Advanced AI models (GPT-4, Claude 3) for student work</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Custom integrations with student information systems</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">Dedicated account manager for institution</span>
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        <span className="text-gray-600">24/7 premium support for educational institutions</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <button className="w-full bg-amber-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-amber-700 transition-colors">
-                                Contact Sales
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* FAQ Section */}
-                    <div className="mt-20 max-w-4xl mx-auto">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-                            Frequently Asked Questions
-                        </h2>
-                        <div className="space-y-8">
-                            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                                    Can I switch plans anytime during the academic year?
-                                </h3>
-                                <p className="text-gray-600">
-                                    Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate any billing adjustments to match your academic calendar.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                                    Is there a free trial for educators and institutions?
-                                </h3>
-                                <p className="text-gray-600">
-                                    Yes, we offer a 14-day free trial for both Professional and Enterprise plans. Perfect for testing with your students before committing. No credit card required to start.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                                    What payment methods do educational institutions accept?
-                                </h3>
-                                <p className="text-gray-600">
-                                    We accept all major credit cards, PayPal, and can arrange purchase orders and invoicing for educational institutions. We also offer academic discounts for qualifying schools.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                                    How does the AI ensure fair grading for all students?
-                                </h3>
-                                <p className="text-gray-600">
-                                    Our AI is trained on diverse educational content and regularly audited for bias. It provides consistent, objective grading while allowing educators to review and adjust scores to ensure fairness for all students.
-                                </p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
