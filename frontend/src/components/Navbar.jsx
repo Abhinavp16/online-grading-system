@@ -1,127 +1,121 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShieldCheck, LogIn, Headset } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Menu, X, ShieldCheck, LogIn } from 'lucide-react';
 import SupportChatbot from './SupportChatbot';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSupportOpen, setIsSupportOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const location = useLocation();
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     const handleSupportClick = (e) => {
         e.preventDefault();
         setIsSupportOpen(true);
-        setIsOpen(false);
+        setIsOpen(false); // Close mobile menu if open
     };
 
     return (
         <>
-            <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'pt-2 px-4' : 'pt-6 px-4'}`}>
+            <div className="absolute top-0 left-0 right-0 z-50 px-4 pt-6 pb-4">
                 <div className="max-w-7xl mx-auto">
-                    <nav className={`transition-all duration-500 rounded-[1.5rem] flex items-stretch overflow-hidden border ${scrolled
-                            ? 'bg-white/80 backdrop-blur-xl shadow-xl border-zinc-200/50 min-h-[4.5rem]'
-                            : 'bg-white shadow-2xl shadow-zinc-200/50 border-white min-h-[5.5rem]'
-                        }`}>
+                    <nav className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl flex items-stretch overflow-hidden border border-gray-100/50 min-h-[5rem] hover:shadow-3xl transition-all duration-300">
 
-                        {/* Logo & Navigation */}
-                        <div className="flex-1 flex items-center justify-between pl-8 pr-6">
+                        {/* Left Section: Logo & Nav Links */}
+                        <div className="flex-1 flex items-center justify-between pl-6 md:pl-8 pr-6">
+                            {/* Enhanced Logo */}
                             <Link to="/" className="flex items-center gap-3 group">
-                                <div className="bg-indigo-600 p-2 rounded-xl shadow-lg group-hover:bg-indigo-500 transition-all transform group-hover:scale-110">
-                                    <ShieldCheck className="text-white h-6 w-6" />
+                                <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2.5 rounded-xl shadow-lg group-hover:scale-110 group-hover:shadow-blue-500/30 transition-all duration-300 border border-white/20">
+                                    <ShieldCheck className="text-white h-6 w-6" strokeWidth={2.5} />
                                 </div>
-                                <span className="text-2xl font-black text-zinc-900 tracking-tighter group-hover:text-indigo-600 transition-colors">
-                                    GRADELY
+                                <span className="text-xl md:text-2xl font-black text-slate-800 tracking-tight group-hover:text-blue-600 transition-colors uppercase">
+                                    Gradely
                                 </span>
                             </Link>
 
-                            {/* Desktop Links */}
-                            <div className="hidden md:flex items-center gap-2">
-                                {[
-                                    { label: 'Pricing', path: '/pricing' },
-                                    { label: 'Schedule Demo', path: '/schedule-demo' }
-                                ].map((item) => (
-                                    <Link
-                                        key={item.label}
-                                        to={item.path}
-                                        className={`px-5 py-2 rounded-xl text-sm font-bold tracking-tight transition-all duration-300 ${location.pathname === item.path
-                                                ? 'bg-zinc-100 text-zinc-900'
-                                                : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'
-                                            }`}
+                            {/* Enhanced Desktop Navigation */}
+                            <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+                                {['Features', 'How It Works'].map((item) => (
+                                    <a
+                                        key={item}
+                                        href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                                        className="text-sm font-bold text-slate-600 hover:text-blue-600 uppercase tracking-wide transition-all duration-300 relative group/link px-4 py-2 hover:bg-blue-50 rounded-lg border border-transparent hover:border-blue-100 hover:shadow-sm"
                                     >
-                                        {item.label}
-                                    </Link>
+                                        {item}
+                                        <span className="absolute -bottom-1 left-4 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 group-hover/link:w-[calc(100%-32px)] rounded-full"></span>
+                                    </a>
                                 ))}
+                                <Link
+                                    to="/schedule-demo"
+                                    className="text-sm font-bold text-slate-600 hover:text-blue-600 uppercase tracking-wide transition-all duration-300 relative group/link px-4 py-2 hover:bg-blue-50 rounded-lg border border-transparent hover:border-blue-100 hover:shadow-sm"
+                                >
+                                    Book Demo
+                                    <span className="absolute -bottom-1 left-4 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 group-hover/link:w-[calc(100%-32px)] rounded-full"></span>
+                                </Link>
+
                                 <button
                                     onClick={handleSupportClick}
-                                    className="px-5 py-2 rounded-xl text-sm font-bold tracking-tight text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all flex items-center gap-2"
+                                    className="text-sm font-bold text-slate-600 hover:text-blue-600 uppercase tracking-wide transition-all duration-300 relative group/link px-4 py-2 hover:bg-blue-50 rounded-lg border border-transparent hover:border-blue-100 hover:shadow-sm"
                                 >
-                                    <Headset size={16} />
                                     Support
+                                    <span className="absolute -bottom-1 left-4 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 group-hover/link:w-[calc(100%-32px)] rounded-full"></span>
                                 </button>
                             </div>
                         </div>
 
-                        {/* Call to Action */}
+                        {/* Enhanced Right Section: Login Button */}
                         <div className="flex items-center">
-                            <div className="hidden md:block h-8 w-[1px] bg-zinc-100 mx-2"></div>
                             <Link
                                 to="/login"
-                                className="group bg-zinc-900 hover:bg-zinc-800 text-white px-8 py-4 md:h-full flex items-center gap-2 font-bold text-sm tracking-tight transition-all active:scale-[0.98]"
+                                className="group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 font-bold text-sm uppercase tracking-wide transition-all duration-300 flex items-center gap-2 shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:scale-105 transform relative overflow-hidden"
                             >
-                                <LogIn size={18} className="text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
-                                SIGN IN
+                                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                                <LogIn className="w-4 h-4 relative z-10" />
+                                <span className="relative z-10">Log In</span>
                             </Link>
 
+                            {/* Enhanced Mobile Menu Button */}
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="md:hidden p-4 text-zinc-900"
+                                className="md:hidden p-3 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-300 ml-4 mr-2"
                             >
-                                {isOpen ? <X /> : <Menu />}
+                                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                             </button>
                         </div>
 
-                        {/* Mobile Menu */}
+                        {/* Enhanced Mobile Menu */}
                         {isOpen && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-3xl shadow-3xl border border-zinc-100 md:hidden p-6 animate-fade-in-down">
-                                <div className="space-y-2">
-                                    <Link
-                                        to="/pricing"
-                                        className="block p-4 rounded-2xl text-lg font-bold text-zinc-900 hover:bg-zinc-50"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        Pricing
-                                    </Link>
-                                    <Link
-                                        to="/schedule-demo"
-                                        className="block p-4 rounded-2xl text-lg font-bold text-zinc-900 hover:bg-zinc-50"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        Schedule Demo
-                                    </Link>
-                                    <button
-                                        onClick={handleSupportClick}
-                                        className="w-full text-left p-4 rounded-2xl text-lg font-bold text-zinc-900 hover:bg-zinc-50 flex items-center gap-3"
-                                    >
-                                        <Headset />
-                                        Support
-                                    </button>
-                                    <div className="pt-4 mt-4 border-t border-zinc-100">
-                                        <Link
-                                            to="/login"
-                                            className="w-full bg-zinc-900 text-white p-5 rounded-2xl font-bold text-center flex items-center justify-center gap-3"
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100/50 md:hidden animate-fade-in-down">
+                                <div className="p-6 space-y-4">
+                                    {['Features', 'How It Works'].map((item) => (
+                                        <a
+                                            key={item}
+                                            href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                                            className="block text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wide py-3 px-4 hover:bg-blue-50 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-100 hover:shadow-sm"
                                             onClick={() => setIsOpen(false)}
                                         >
-                                            <LogIn size={20} className="text-indigo-400" />
-                                            SIGN IN
+                                            {item}
+                                        </a>
+                                    ))}
+                                    <Link
+                                        to="/schedule-demo"
+                                        className="block text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wide py-3 px-4 hover:bg-blue-50 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-100 hover:shadow-sm"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        Book Demo
+                                    </Link>
+
+                                    <button
+                                        onClick={handleSupportClick}
+                                        className="block w-full text-left text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wide py-3 px-4 hover:bg-blue-50 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-100 hover:shadow-sm"
+                                    >
+                                        Support
+                                    </button>
+                                    <div className="pt-4 border-t border-gray-100">
+                                        <Link
+                                            to="/login"
+                                            className="block w-full text-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-wide shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all duration-300"
+                                            onClick={() => setIsOpen(false)}
+                                        >
+                                            Log In
                                         </Link>
                                     </div>
                                 </div>
