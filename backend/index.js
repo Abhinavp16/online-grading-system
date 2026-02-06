@@ -16,11 +16,11 @@ app.get('/', (req, res) => {
 
 // Mock Database
 const students = [
-    { id: "S001", name: "Pradeep", email: "alex.morgan@university.edu" },
-    { id: "S002", name: "Priyanshu", email: "sarah.jones@university.edu" },
-    { id: "S003", name: "Chetna", email: "michael.c@university.edu" },
-    { id: "S004", name: "aditya", email: "emily.b@university.edu" },
-    { id: "S005", name: "karan", email: "john.doe@university.edu" }
+    { id: "S001", name: "Pradeep", email: "pradeep@university.edu" },
+    { id: "S002", name: "Priyanshu", email: "priyanshu@university.edu" },
+    { id: "S003", name: "Chetna", email: "chetna@university.edu" },
+    { id: "S004", name: "aditya", email: "aditya@university.edu" },
+    { id: "S005", name: "karan", email: "karan@university.edu" }
 ];
 
 let tests = [
